@@ -14,9 +14,10 @@ namespace BlazorEcommerce.Shared
         public string Description { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Price { get; set; }
+        //public decimal Price { get; set; } Removed Price as Now Price we are using from Product Variant Table
         public Category? Category { get; set; }
         public int CategoryId { get; set; }
+        public List<ProductVariant> Variants { get; set; }=new List<ProductVariant>();
 
     }
 }
