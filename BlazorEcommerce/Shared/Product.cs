@@ -17,7 +17,8 @@ namespace BlazorEcommerce.Shared
         //public decimal Price { get; set; } Removed Price as Now Price we are using from Product Variant Table
         public Category? Category { get; set; }
         public int CategoryId { get; set; }
-        public List<ProductVariant> Variants { get; set; }=new List<ProductVariant>();
+        public bool Featured { get; set; } = false;
+        public List<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
 
     }
 }
