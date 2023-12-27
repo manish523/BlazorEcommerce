@@ -3,6 +3,8 @@ global using BlazorEcommerce.Shared.DTOs;
 global using System.Net.Http.Json;
 global using BlazorEcommerce.Client.Services.ProductService;
 global using BlazorEcommerce.Client.Services.CategoryService;
+global using BlazorEcommerce.Client.Services.AuthService;
+global using Microsoft.AspNetCore.Components.Authorization;
 using BlazorEcommerce.Client.Services.CartService;
 using BlazorEcommerce.Client;
 
@@ -19,5 +21,12 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+#region Seting Up Authentication State Provoder
+builder.Services.AddOptions();
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+#endregion
 
 await builder.Build().RunAsync();
