@@ -44,6 +44,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// to be able to access context directly in services rather
+// then sending user id to services after accessing
+// it in the controller
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 app.UseSwaggerUI();

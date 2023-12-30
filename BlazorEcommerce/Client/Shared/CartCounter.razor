@@ -8,10 +8,16 @@
 </a>
 
 @code {
-    private int GetCartItemsCount()
+    private int GetCartItemsCount_OLD()
     {
         var cart = LocalStorageService.GetItem<List<CartItem>>("cart");
         return cart != null ? cart.Count : 0;
+    }
+
+    private int GetCartItemsCount()
+    {
+        var count = LocalStorageService.GetItem<int>("cartItemsCount");
+        return count;
     }
 
     protected override void OnInitialized()
