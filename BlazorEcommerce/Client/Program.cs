@@ -4,10 +4,11 @@ global using System.Net.Http.Json;
 global using BlazorEcommerce.Client.Services.ProductService;
 global using BlazorEcommerce.Client.Services.CategoryService;
 global using BlazorEcommerce.Client.Services.AuthService;
+global using BlazorEcommerce.Client.Services.OrderService;
 global using Microsoft.AspNetCore.Components.Authorization;
-using BlazorEcommerce.Client.Services.CartService;
-using BlazorEcommerce.Client;
+global using BlazorEcommerce.Client.Services.CartService;
 
+using BlazorEcommerce.Client;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.LocalStorage;
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IOrderService, OrderServicecs>();
 
 #region Seting Up Authentication State Provoder
 builder.Services.AddOptions();
