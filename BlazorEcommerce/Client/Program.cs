@@ -7,6 +7,7 @@ global using BlazorEcommerce.Client.Services.AuthService;
 global using BlazorEcommerce.Client.Services.OrderService;
 global using Microsoft.AspNetCore.Components.Authorization;
 global using BlazorEcommerce.Client.Services.CartService;
+global using BlazorEcommerce.Client.Services.AddressService;
 
 using BlazorEcommerce.Client;
 using Microsoft.AspNetCore.Components.Web;
@@ -24,6 +25,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderServicecs>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 
 #region Seting Up Authentication State Provoder
 builder.Services.AddOptions();
