@@ -1,4 +1,7 @@
 ﻿using BlazorEcommerce.Shared;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace BlazorEcommerce.Server.Data
 {
@@ -6,7 +9,7 @@ namespace BlazorEcommerce.Server.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

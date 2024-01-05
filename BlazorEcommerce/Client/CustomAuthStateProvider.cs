@@ -31,7 +31,7 @@ namespace BlazorEcommerce.Client
                     _http.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", authToken.Replace("\"", ""));
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     await _localStorageService.RemoveItemAsync("authToken");
                     identity = new ClaimsIdentity();
@@ -62,7 +62,7 @@ namespace BlazorEcommerce.Client
             switch (base64.Length % 4)
             {
                 case 2: base64 += "=="; break;
-                case 3: base64 += "=="; break;
+                case 3: base64 += "="; break;
             }
             return Convert.FromBase64String(base64);
         }
