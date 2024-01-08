@@ -33,8 +33,33 @@ else
             <label for="imageUrl">Image Url</label>
             <InputText id="imageUrl" @bind-Value="product.ImageUrl" class="form-control"></InputText>
         </div>
+        <div class="mb-0" style="display:flex;flex-wrap:wrap; flex-direction:row; justify-content:center;">
+            @if (!string.IsNullOrEmpty(product.ImageUrl))
+            {
+                <img src="@product.ImageUrl" />
+            }
+            else
+            {
+                foreach (var image in product.Images)
+                {
+                    <MudCard Class="ma-2">
+                        <MudCardContent>
+                            <MudImage Src="@image.Data"></MudImage>
+                        </MudCardContent>
+                        <MudCardActions Style="justify-content:center;">
+                            <MudButton Variant="Variant.Filled"
+                           Color="Color.Error"
+                           OnClick="@(()=>RemoveImage(image.Id))">
+                                Remove
+                            </MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                }
+            }
+        </div>
         <div class="mb-0">
-            <img src="@product.ImageUrl">
+            <label for="images">Image(s)</label>
+            <InputFile id="images" OnChange="OnFileChange" multiple class="form-control"></InputFile>
         </div>
         <div class="mb-0">
             <label for="description">Description</label>
@@ -65,14 +90,14 @@ else
                 <div class="col">
                     <InputNumber @bind-Value="variant.OriginalPrice" class="form-control" disabled="@variant.Deleted"></InputNumber>
                 </div>
-                <div class="col">
+                <div class="col col-visible">
                     <InputCheckbox @bind-Value="variant.Visible" style="transform:scale(1.5,1.5);" disabled="@variant.Deleted"></InputCheckbox>
                 </div>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-primary" disabled="@variant.Deleted" @onclick="(()=>RemoveVariant(variant.ProductTypeId))">
-                    <i class="oi oi-trash"></i>
-                </button>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" disabled="@variant.Deleted" @onclick="(()=>RemoveVariant(variant.ProductTypeId))">
+                        <i class="oi oi-trash"></i>
+                    </button>
+                </div>
             </div>
         }
         <button type="button" class="btn btn-primary" @onclick="AddVariant">
@@ -129,6 +154,7 @@ else
         if (Id == 0)
         {
             product = new Product { IsNew = true };
+            btnText = "Create Product";
         }
         else
         {
@@ -185,10 +211,32 @@ else
     {
         bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
         $"Do you really want to delete '{product.Title}'?");
-        if(confirmed)
+        if (confirmed)
         {
             await ProductService.DeleteProduct(product);
             NavigationManager.NavigateTo("admin/products");
+        }
+    }
+
+    async Task OnFileChange(InputFileChangeEventArgs e)
+    {
+        var format = "image/png";
+        foreach (var image in e.GetMultipleFiles(int.MaxValue))
+        {
+            var resizedImage = await image.RequestImageFileAsync(format, 200, 200);
+            var buffer = new byte[resizedImage.Size];
+            await resizedImage.OpenReadStream().ReadAsync(buffer);
+            var imageData = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+            product.Images.Add(new Image { Data = imageData });
+        }
+    }
+
+    void RemoveImage(int id)
+    {
+        var image = product.Images.FirstOrDefault(i => i.Id == id);
+        if (image != null)
+        {
+            product.Images.Remove(image);
         }
     }
 }
